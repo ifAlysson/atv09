@@ -1,0 +1,23 @@
+---
+criamos um modelo base html que vai conter o layout do site (o que foi feito com as divs);
+onde deixar o css, entretanto? depois aprendemos a usar os frameworks de css
+---
+toda vez que fazemos uma alteração nos modelos, necessitamos fazer as migrações
+---
+
+anotação do alysson:
+não sei quantas aplicações vão ser criadas,
+criei a aplicação layout porque meu intuito seria que ele
+guarde o html base do site (o layout com divs, organizando tudo e etc),
+mas não sei se, ao longo do projeto, outros apps vão precisar ser criados.
+como os outros apps vão acessar o template base que estará dentro do layout?
+eles precisarão fazer isso? eu não sei.
+então, se necessário, até o momento o nome da aplicação está sendo usado em:
++ atv09/atv09/urls.py
++ atv09/layout/urls.py
++ atv09/layout/views.py (só o nome da função, mas não sei o quanto isso importa)
+
+repetindo algumas partes do tutorial w3schools, terminei em django templates
+
+---
+(16 outubro)
