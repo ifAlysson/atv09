@@ -1,0 +1,350 @@
+<!--
+Alysson Matheus de Souza Rodrigues
+Jordana da Silva Ferro
+Vitor Vinícius Porangaba Torres
+ATV07 - 513  -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V, A, J</title>
+
+    <link rel="icon" type="image/x-icon" href="img/img_vinicius/icom.ico">
+    <link rel="stylesheet" href="css/estrutura.css">
+    <link rel="stylesheet" href="css/estilos.css" id="estilos">
+    
+<script>
+
+
+async function carregarConteudo(pagina) {
+    // Função que cara o conteúdo de um arquivo HTML para dentro da div principal
+    const container = document.getElementById('conteudo');
+    
+    try {
+        // Busca o arquivo HTML (ex: 'curriculo_aluno1.html')
+        const resposta = await fetch(pagina);
+        
+        // Verifica se o arquivo foi encontrado
+        if (!resposta.ok) throw new Error('Página não encontrada');
+        
+        // Converte o resultado em texto
+        const html = await resposta.text();
+        
+        // Injeta o HTML dentro da div principal
+        container.innerHTML = html;
+        
+    } catch (erro) {
+        container.innerHTML = "<h1>Erro 404</h1><p>Conteúdo não encontrado.</p>";
+    }
+}
+
+function temas() {
+    // Função que alterna os temas do site
+
+    // Define uma constante que guarda o acesso ao body
+    const body = document.getElementById("corpo");
+
+    if (document.getElementById('botao-tema').textContent == "Tema A") {
+        /* Se o tema A estiver selecionado, atualiza o texto do botão, remove a classe de formatação
+        tema A e adiciona tema V*/
+        document.getElementById('botao-tema').textContent = "Tema V";
+        body.classList.remove("temav");
+        body.classList.add("temaa");
+    }
+    else {
+        /* Se o tema V estiver selecionado, atualiza o texto do botão, remove a classe de formatação
+        tema V e adiciona tema A*/
+        document.getElementById('botao-tema').textContent = "Tema A";
+        body.classList.remove("temaa");
+        body.classList.add("temav");
+    }
+}
+
+
+function myFunction(ativo) {
+    // Função que atualiza a formatação do botão ativo
+
+    // Cria uma lista com todas as divs que contém os botões
+    var x = document.getElementsByClassName("botoes-nav");
+
+    for (var i = 0; i < x.length; i++) {
+        // Percorre a lista, removendo qualquer formatação de atividade e adicionando de inatividade
+        x[i].classList.remove("botaoativo");
+        x[i].classList.add("botaoinativo")
+    }
+
+    // Utiliza o ID do botão selecionado para, apenas no botão selecionado, inverter o que o loop fez
+    document.getElementById(ativo).classList.add("botaoativo");
+    document.getElementById(ativo).classList.remove("botaoinativo");
+}
+
+function mostrarBotoes(id) {
+    // Mostra os botões para acessar currículos/temas ocultando ou não a div em que se encontram
+    document.getElementById(id).hidden = !document.getElementById(id).hidden;
+}
+
+function mostrarBotaoLateral(idDiv, idAcessado) {
+    // Esta função só é usada na capa. Nos botões da capa, caso o usuário acesse uma página por eles e não pelo menu lateral, esta função garante que a página no menu lateral também ficará selecionada
+    if (document.getElementById(idDiv).hidden) mostrarBotoes(idDiv);
+    myFunction(idAcessado);
+}
+
+function confirmarEnvio(event) {
+    // Função que intercepta o envio e adiciona uma etapa de confirmação
+
+    // Intercepta o envio automático
+    event.preventDefault();
+
+    // Captura os valores dos campos
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const telefone = document.getElementById("telefone").value;
+    const assunto = document.getElementById("assunto").value;
+    const perfil = document.querySelector('input[name="perfil"]:checked').value;
+    const mensagem = document.getElementById("mensagem").value;
+
+    // Descobre e envia o tema ativo para sucesso.html
+    const body = document.getElementById("corpo");
+    if (body.classList.contains("temaa")) document.getElementById("tema").value = "temaa";
+    else document.getElementById("tema").value = "temav";
+
+    // Monta o resumo formatando uma string
+    const resumo =
+`Confira os dados informados:
+
+Nome: ${nome}
+E-mail: ${email}
+Telefone: ${telefone}
+Assunto: ${assunto}
+Perfil: ${perfil}
+
+Mensagem:
+${mensagem}
+
+Deseja enviar o formulário?`;
+
+    // Exibe a confirmação
+    if (confirm(resumo)) {
+        // Se confirmou, envia o formulário normalmente
+        event.target.submit();
+    }
+
+    // Se cancelou, apenas permanece na página
+    return false;
+}
+
+</script>
+
+
+</head>
+<body id="corpo" class="temav">
+
+    <noscript>
+    <div style="background: red; color: white; padding: 20px; text-align: center;">
+        Atenção: Este site utiliza JavaScript para navegação. Por favor, habilite o JavaScript no seu navegador.
+    </div>
+    </noscript>
+
+
+    <div class="meu_container">
+    <!--header: define um cabeçalho-->
+    <header id="cabecalho">V, A, J</header>
+    <div class="grade">
+    <!--aside: define um conteúdo indiretamente relacionado ao conteúdo circundante-->
+    <aside class="barra_lateral">
+        <!--nav: cria uma seção que contém links para outras seções-->
+        <nav style="width: 100%;">
+    
+    <!--section: cria uma seção genérica-->
+    <section id="capa" class="botoes-nav botaoativo">
+        <h2
+            onclick="
+                myFunction('capa');
+                carregarConteudo('arquivos_html/capa.html');
+            "
+        >
+            <a id="texto-capa">Capa</a>
+        </h2>
+    </section>
+
+    <!--section: cria uma seção genérica-->
+    <section id="curriculos" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('curriculos');
+                    mostrarBotoes('botoes-curriculo');
+                "
+                
+            >
+                <a id="texto-curriculos" class="texto">Curriculos</a>
+            </h2>
+        </section>
+
+    <div id="botoes-curriculo" hidden>
+
+        <!--section: cria uma seção genérica-->
+        <section id="aba-curriculo" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('aba-curriculo');
+                    carregarConteudo('arquivos_html/curriculo_vinicius.html');
+                "
+            >
+                <a id="texto-curriculo" class="texto">Vinícius</a>
+            </h2>
+        </section>
+        
+        <!--section: cria uma seção genérica-->
+        <section id="aba-curriculo2" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('aba-curriculo2');
+                    carregarConteudo('arquivos_html/curriculo_alysson.html');
+                "
+            >
+                <a id="texto-curriculo2" class="texto">Alysson</a>
+            </h2>
+        </section>
+
+        <!--section: cria uma seção genérica-->
+        <section id="aba-curriculo3" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('aba-curriculo3');
+                    carregarConteudo('arquivos_html/curriculo_jordana.html');
+                "
+            >
+                <a id="texto-curriculo3" class="texto">Jordana</a>
+            </h2>
+        </section>
+        
+    </div>
+    
+    <!--section: cria uma seção genérica-->
+    <section id="temas" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('temas');
+                    mostrarBotoes('botoes-tema');
+                "
+            >
+                <a id="texto-temas" class="texto">Temas</a>
+            </h2>
+        </section>
+
+    <div id="botoes-tema" hidden>
+        
+        <!--section: cria uma seção genérica-->
+        <section id="aba-hobbies" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('aba-hobbies');
+                    carregarConteudo('arquivos_html/tema_vinicius.html');
+                "
+            >
+                <a id="texto-hobbies" class="texto">Hobbies</a>
+            </h2>
+        </section>
+        
+        <!--section: cria uma seção genérica-->
+        <section id="aba-musicas" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('aba-musicas');
+                    carregarConteudo('arquivos_html/tema_alysson.html');
+                "
+            >
+                <a id="texto-musicas" class="texto">Músicas</a>
+            </h2>
+        </section>
+
+        <!--section: cria uma seção genérica-->
+        <section id="aba-moda" class="botoes-nav botaoinativo">
+            <h2
+                onclick="
+                    myFunction('aba-moda');
+                    carregarConteudo('arquivos_html/tema_jordana.html');
+                "
+            >
+                <a id="texto-moda" class="texto">Moda</a>
+            </h2>
+        </section>
+    </div>
+    
+    <!--section: cria uma seção genérica-->
+    <section id="ouvidoria" class="botoes-nav botaoinativo">
+        <h2
+            onclick="
+                myFunction('ouvidoria');
+                carregarConteudo('arquivos_html/ouvidoria.html');
+            "
+        >
+            <a id="texto-ouvidoria">Ouvidoria</a>
+        </h2>
+    </section>
+
+    <!--section: cria uma seção genérica-->
+    <section id="pesquisa" class="botoes-nav botaoinativo">
+        <h2>
+            <a id="texto-pesquisa" href="pesquisa.pdf" target="_blank" style="text-decoration: none; color: inherit;">Pesquisa</a>
+        </h2>
+    </section>
+
+    
+    <div>
+        <button id="botao-tema" onclick="temas()">Tema A</button>
+    </div>
+</nav>
+
+
+</aside>
+
+    <!--main: cria o espaço que conterá o conteúdo central da página-->
+    <main id="conteudo"></main>
+    </div>
+    <!--footer: cria um rodapé-->
+    <footer id="rodape">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Integrantes</th>
+                    <th>E-mail</th>
+                    <th>Celular</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: white;">Vitor Vinícius Porangaba Torres</td>
+                    <td><a href="mailto:vvpt1@aluno.ifal.edu.br" style="color: #B0B0B0">vvpt1@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (82) 99914-0658</td>
+                </tr>
+                <tr>
+                    <td style="color: white;">Alysson Matheus de Souza Rodrigues</td>
+                    <td><a href="mailto:amsr1@aluno.ifal.edu.br" style="color: #B0B0B0">amsr1@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (87) 98170-3835</td>
+                </tr>
+                <tr>
+                    <td style="color: white;">Jordana da Silva Ferro</td>
+                    <td><a href="mailto:jsf23@aluno.ifal.edu.br" style="color: #B0B0B0">jsf23@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (82) 98103-8466</td>
+                </tr>
+            </tbody>
+        </table>
+    </footer>
+    </div>
+
+    <script>
+        // inicializa a página carregando a capa automaticamente
+        carregarConteudo("arquivos_html/capa.html");
+
+        // procura algum tema na URL da página. Ele só existirá caso o usuário acesse index.html retornando da página sucesso.html, e assim a mudança abrupta de temas decorrente da troca de páginas será neutralizada. Se não houver tema na URL, o if não é executado pois tema == null
+        const parametros = new URLSearchParams(window.location.search);
+        const tema = parametros.get("tema");
+        if (tema) {
+            document.getElementById("corpo").classList.remove("temaa", "temav");
+            document.getElementById("corpo").classList.add(tema);
+        }
+    </script>
+</body>
+</html>

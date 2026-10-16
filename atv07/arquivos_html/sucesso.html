@@ -1,0 +1,108 @@
+<!--
+Vitor Vinícius Porangaba Torres
+Alysson Matheus de Souza Rodrigues
+Jordana da Silva Ferro
+ATV07 - 513-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V, A, J</title>
+
+    <link rel="icon" type="image/x-icon" href="../img/img_vinicius/icom.ico">
+    <link rel="stylesheet" href="../css/estrutura.css">
+    <link rel="stylesheet" href="../css/estilos.css" id="estilos">
+</head>
+<body id="corpo">
+
+    <noscript>
+    <div style="background: red; color: white; padding: 20px; text-align: center;">
+        Atenção: Este site utiliza JavaScript para navegação. Por favor, habilite o JavaScript no seu navegador.
+    </div>
+    </noscript>
+
+
+    <div class="meu_container">
+    <!--header: define um cabeçalho-->
+    <header id="cabecalho">V, A, J</header>
+    <div class="grade">
+
+    <!--main: cria o espaço que conterá o conteúdo central da página-->
+    <main id="conteudo" style="width: 100%;">
+                <div style="text-align:center;">
+                    <h1>&#10024; Mensagem enviada! &#10024;</h1>
+
+                    <p id="mensagem"></p>
+
+                    <br>
+                    <img src="../img/sucesso.jpeg" alt="Dahyun atendendo o telefone" style="text-align: center; border-radius: 10px;" width="250px">
+                    <br>
+                    <a href="../index.html" id="voltar">
+                        <button class="botao-home">
+                            Voltar para a página inicial
+                        </button>
+                    </a>
+
+                </div>
+    </main>
+    </div>
+    <!--footer: cria um rodapé-->
+    <footer id="rodape">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Integrantes</th>
+                    <th>E-mail</th>
+                    <th>Celular</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: white;">Vitor Vinícius Porangaba Torres</td>
+                    <td><a href="mailto:vvpt1@aluno.ifal.edu.br" style="color: #B0B0B0">vvpt1@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (82) 99914-0658</td>
+                </tr>
+                <tr>
+                    <td style="color: white;">Alysson Matheus de Souza Rodrigues</td>
+                    <td><a href="mailto:amsr1@aluno.ifal.edu.br" style="color: #B0B0B0">amsr1@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (87) 98170-3835</td>
+                </tr>
+                <tr>
+                    <td style="color: white;">Jordana da Silva Ferro</td>
+                    <td><a href="mailto:jsf23@aluno.ifal.edu.br" style="color: #B0B0B0">jsf23@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (82) 98103-8466</td>
+                </tr>
+            </tbody>
+        </table>
+    </footer>
+    </div>
+</body>
+</html>
+
+
+
+<script>
+
+    // Captura os parâmetros da URL
+    const parametros = new URLSearchParams(window.location.search);
+    // Obtém o nome e o e-mail
+    const nome = parametros.get("nome");
+    const email = parametros.get("email");
+    // Adiciona o tema selecionado
+    const tema = parametros.get("tema");
+    document.getElementById("corpo").classList.add(tema);
+
+    // Escreve a mensagem personalizada formatando uma string com os valores descobertos pelo URLSearchParams
+    document.getElementById("mensagem").innerHTML =
+        `Obrigado, <strong>${nome}</strong>!<br><br>
+        Recebemos sua solicitação com sucesso (a Dahyun está muito feliz por<br>você ter nos contatado, olha o sorriso dela! &#x1F601;)<br>
+        Em breve entraremos em contato através do e-mail
+        <b>${email}</b>.`;
+    
+    // Faz com que o URL para voltar para a página principal contenha o tema atualmente ativo na URL. O index irá receber este tema e assim a mudança abrupta de tema decorrente pela troca de páginas será neutralizada
+    document.getElementById("voltar").href = `../index.html?tema=${tema}`;
+    console.log(document.getElementById("voltar").href);
+
+</script>
