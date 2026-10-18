@@ -1,0 +1,231 @@
+/*
+Vitor Vinícius Porangaba Torres
+Alysson Matheus de Souza Rodrigues
+Jordana da Silva Ferro
+ATV 07 - 513 */
+#corpo {
+    background-size: 100%;
+    background-attachment: fixed;
+}
+
+.meu_container { /*classe*/
+    width: 65%;
+    margin: 30px auto; /* Centraliza e adiciona margem no topo */
+    display: flex;       /* Transforma o container em flexível */
+    flex-direction: column; /* Coloca Header, Conteúdo e Rodapé em coluna */
+    min-height: 90vh;    /* Garante altura mínima */
+}
+
+.meu_container > header,
+.meu_container > .grade,
+.meu_container > footer { 
+    text-align: center; /*Alinha todo o texto no centro*/
+    overflow: hidden; /* Corta qualquer conteúdo que passe do tamanho da div */
+}
+
+#cabecalho { /*id*/
+    height: 80px; /*Ajeita a altura total do cabeçalho*/
+    font-size: 300%; /*Aumenta o tamanho da fonte*/
+    text-align: center; /* Alinha horizontalmente os textos */
+}
+
+.botoes-nav {
+    cursor: pointer;
+}
+
+.barra_lateral nav section, .barra_lateral nav div { 
+    vertical-align: top; /*Alinha o conteúdo do div ao topo*/
+}
+
+.barra_lateral { /*classe*/
+    width: 15%;          /* Mantém a largura proporcional */
+} 
+
+.grade { /*classe*/
+    display: flex;       /* Usamos flex em vez de grid para facilitar o alinhamento de altura */
+    flex: 1;             /* Faz a grade ocupar todo o espaço restante entre o cabeçalho e rodapé */
+}
+
+main#conteudo { /*id*/
+    width: 85%;          /* O restante do espaço */
+    padding: 20px;       /* Espaçamento interno */
+    background: #ffffff; /* Fundo branco para contraste */
+}
+
+#rodape { /*id*/
+    height: 120px; /*Ajeita a altura total do rodapé*/
+    text-align: center; /* Alinha horizontalmente os textos */
+}
+        
+.tabela_toda {
+     /* define uma borda padrão preta; centraliza as tabelas
+    automaticamente e define o padrão da cor de fundo para branco*/
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin: auto;
+    background-color: white;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cont_tabela {
+    /* centraliza os textos dentro de uma célula qualquer horizontal e verticalmente */
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tabela_titulo {
+    /* define para cinza o background de células-título */
+    background-color: gray;
+}
+
+.titulos {
+    /* alinha todos os títulos */
+    text-align: center;
+}
+
+.containeres {
+    /* cria containeres que serão responsáveis pelo layout do currículo */
+    width: 100%;
+    display: flex;
+    text-align: center;
+}
+
+.curriculoEsquerda {
+    /* define formatação pra coluna esquerda do currículo */
+    width: 20%;
+}
+
+.curriculoDireita {
+    /* define formatação pra coluna direita do currículo */
+    width: 80%;
+    padding-left: 25px;
+}
+
+#imagemPerfil {
+    /* define margens automáticas pra imagem de perfil */
+    margin: auto;
+}
+
+#abaixoDaImagem {
+    /* define margem esquerda para texto abaixo da foto de perfil */
+    padding-left: 2px;
+}
+
+.certificados {
+    /* organiza certificados */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.certificados img {
+    /* define tamanho padrão para as imagens */
+    width: 250px;
+}
+
+.fotos {
+    /* define a foto de perfil dos artistas para um tamanho uniforme */
+    width: 200px;
+}
+
+.elementos {
+    /* auxilia a classe anterior na organização */
+    width: 50%;
+}
+
+.thumbs {
+    /* define a capa das músicas para um tamanho uniforme */
+    width: 100px;
+}
+
+.texto_hobbies {
+    /* padroniza os textos para o tema do vinícius */
+    font-size: 150%;
+    font-weight: bold;
+}
+
+#botao-tema {
+    /* formata a estrutura do botão de trocar de tema, lembrando que as cores se encontram em estilos.css*/
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s; /*essa linha faz a mudança de cores pela troca de tema ser suave */
+    margin-top: 20px;
+}
+
+.botao-home {
+    /* formata a estrutura dos botões na página principal, lembrando que as cores se encontram em estilos.css */
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s; /*essa linha faz a mudança de cores pela troca de tema ser suave */
+    margin-top: 10px;
+}
+
+#formulario {
+    text-align: left; /* alinha o formulário à esquerda */
+}
+
+.caixaformulario:user-valid {
+    border-color: green; /* adiciona formatação aos itens do formulário que surge quando o usuário preenche corretamente uma pergunta */
+}
+
+.caixaformulario:user-invalid {
+    border-color: red; /* adiciona formatação aos itens do formulário que surge quando o usuário preenche incorretamente uma pergunta */
+}
+
+.cabecalho-formulario {
+    position: relative; /* torna esta div a referência para o posicionamento absoluto da imagem */
+    margin-bottom: 20px; /* cria um espaçamento abaixo do cabeçalho antes do restante do formulário */
+}
+
+.imagem-formulario {
+    position: absolute; /* posiciona a imagem em relação ao elemento .cabecalho-formulario */
+    top: 0; /* fixa a imagem no topo do cabeçalho */
+    right: 0; /* fixa a imagem encostada na borda direita do cabeçalho */
+    width: 200px; /* define largura da imagem*/
+    border-radius: 10px; /* define borda arredondada da imagem */
+}
+
+@media screen and (max-width: 768px) {
+    
+    .meu_container {
+        width: 100%; /* faz o conteúdo ocupar 100% do espaço horizontal em telas pequenas*/
+    }
+
+    .grade {
+        flex-direction: column; /* Força a barra lateral e o conteúdo a ficarem um embaixo do outro quando o espaço for pequeno*/
+    }
+
+    .barra_lateral {
+        width: 100%; /* A barra lateral agora vira uma barra superior ocupando toda a largura */
+        padding: 10px 0; /* cria uma margem entre os elementos da barra superior e o conteúdo */
+    }
+
+    main#conteudo {
+        width: 100%; /* O conteúdo principal agora ganha espaço total */
+        padding: 10px; /* cria uma margem entre os elementos do conteúdo e o rodapé */
+    }
+
+    /* Ajuste para a tabela do rodapé não quebrar para fora da tela */
+    #rodape {
+        height: auto; /* Permite que o rodapé cresça se o texto da tabela quebrar linha */
+        padding: 15px 0;
+    }
+
+    #rodape table {
+        font-size: 12px; /* Diminui um pouco a letra da tabela para caber em telas de celular */
+    }
+    
+    #cabecalho {
+        font-size: 200%; /* Diminui o título principal para não quebrar feio no celular */
+    }
+}

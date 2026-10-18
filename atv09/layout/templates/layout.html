@@ -6,133 +6,10 @@
     <title>V, A, J</title>
 
     <link rel="icon" type="image/x-icon" href="img/img_vinicius/icom.ico">
-    <link rel="stylesheet" href="css/estrutura.css">
-    <link rel="stylesheet" href="css/estilos.css" id="estilos">
-    
-<script>
-
-
-async function carregarConteudo(pagina) {
-    // Função que cara o conteúdo de um arquivo HTML para dentro da div principal
-    const container = document.getElementById('conteudo');
-    
-    try {
-        // Busca o arquivo HTML (ex: 'curriculo_aluno1.html')
-        const resposta = await fetch(pagina);
-        
-        // Verifica se o arquivo foi encontrado
-        if (!resposta.ok) throw new Error('Página não encontrada');
-        
-        // Converte o resultado em texto
-        const html = await resposta.text();
-        
-        // Injeta o HTML dentro da div principal
-        container.innerHTML = html;
-        
-    } catch (erro) {
-        container.innerHTML = "<h1>Erro 404</h1><p>Conteúdo não encontrado.</p>";
-    }
-}
-
-function temas() {
-    // Função que alterna os temas do site
-
-    // Define uma constante que guarda o acesso ao body
-    const body = document.getElementById("corpo");
-
-    if (document.getElementById('botao-tema').textContent == "Tema A") {
-        /* Se o tema A estiver selecionado, atualiza o texto do botão, remove a classe de formatação
-        tema A e adiciona tema V*/
-        document.getElementById('botao-tema').textContent = "Tema V";
-        body.classList.remove("temav");
-        body.classList.add("temaa");
-    }
-    else {
-        /* Se o tema V estiver selecionado, atualiza o texto do botão, remove a classe de formatação
-        tema V e adiciona tema A*/
-        document.getElementById('botao-tema').textContent = "Tema A";
-        body.classList.remove("temaa");
-        body.classList.add("temav");
-    }
-}
-
-
-function myFunction(ativo) {
-    // Função que atualiza a formatação do botão ativo
-
-    // Cria uma lista com todas as divs que contém os botões
-    var x = document.getElementsByClassName("botoes-nav");
-
-    for (var i = 0; i < x.length; i++) {
-        // Percorre a lista, removendo qualquer formatação de atividade e adicionando de inatividade
-        x[i].classList.remove("botaoativo");
-        x[i].classList.add("botaoinativo")
-    }
-
-    // Utiliza o ID do botão selecionado para, apenas no botão selecionado, inverter o que o loop fez
-    document.getElementById(ativo).classList.add("botaoativo");
-    document.getElementById(ativo).classList.remove("botaoinativo");
-}
-
-function mostrarBotoes(id) {
-    // Mostra os botões para acessar currículos/temas ocultando ou não a div em que se encontram
-    document.getElementById(id).hidden = !document.getElementById(id).hidden;
-}
-
-function mostrarBotaoLateral(idDiv, idAcessado) {
-    // Esta função só é usada na capa. Nos botões da capa, caso o usuário acesse uma página por eles e não pelo menu lateral, esta função garante que a página no menu lateral também ficará selecionada
-    if (document.getElementById(idDiv).hidden) mostrarBotoes(idDiv);
-    myFunction(idAcessado);
-}
-
-function confirmarEnvio(event) {
-    // Função que intercepta o envio e adiciona uma etapa de confirmação
-
-    // Intercepta o envio automático
-    event.preventDefault();
-
-    // Captura os valores dos campos
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const telefone = document.getElementById("telefone").value;
-    const assunto = document.getElementById("assunto").value;
-    const perfil = document.querySelector('input[name="perfil"]:checked').value;
-    const mensagem = document.getElementById("mensagem").value;
-
-    // Descobre e envia o tema ativo para sucesso.html
-    const body = document.getElementById("corpo");
-    if (body.classList.contains("temaa")) document.getElementById("tema").value = "temaa";
-    else document.getElementById("tema").value = "temav";
-
-    // Monta o resumo formatando uma string
-    const resumo =
-`Confira os dados informados:
-
-Nome: ${nome}
-E-mail: ${email}
-Telefone: ${telefone}
-Assunto: ${assunto}
-Perfil: ${perfil}
-
-Mensagem:
-${mensagem}
-
-Deseja enviar o formulário?`;
-
-    // Exibe a confirmação
-    if (confirm(resumo)) {
-        // Se confirmou, envia o formulário normalmente
-        event.target.submit();
-    }
-
-    // Se cancelou, apenas permanece na página
-    return false;
-}
-
-</script>
-
-
+    <link rel="stylesheet" href="estrutura.css">
+    <link rel="stylesheet" href="estilos.css" id="estilos">
 </head>
+
 <body id="corpo" class="temav">
 
     <noscript>
@@ -144,7 +21,7 @@ Deseja enviar o formulário?`;
 
     <div class="meu_container">
     <!--header: define um cabeçalho-->
-    <header id="cabecalho">V, A, J</header>
+    <header id="cabecalho" color:red;>V, A, J</header>
     <div class="grade">
     <!--aside: define um conteúdo indiretamente relacionado ao conteúdo circundante-->
     <aside class="barra_lateral">
