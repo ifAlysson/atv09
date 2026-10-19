@@ -12,7 +12,7 @@ ATV 07 - 513 */
 
 #corpo.temav {
     /* define a imagem de fundo */
-    background-image: url(../img/img_vinicius/fundo_geral2.png);
+    background-image: url(img/img_vinicius/fundo_geral2.png);
 }
 
 #corpo.temav #cabecalho {
@@ -34,7 +34,7 @@ ATV 07 - 513 */
 
 #corpo.temav #conteudo {
     /* define a imagem de fundo da parte de conteúdo */
-    background-image: url(../img/img_vinicius/fundo_curriculo.png);
+    background-image: url(img/img_vinicius/fundo_curriculo.png);
 }
 
 #corpo.temav .botaoativo {
@@ -66,7 +66,7 @@ ATV 07 - 513 */
 
 #corpo.temaa {
     /* define a imagem de fundo */
-    background-image: url(../img/img_alysson/background.jpg);
+    background-image: url(img/img_alysson/background.jpg);
 }
 
 #corpo.temaa #cabecalho {
@@ -82,7 +82,7 @@ ATV 07 - 513 */
 
 #corpo.temaa #rodape {
     /* define imagem de fundo e cor de texto do rodapé */
-    background-image: url(../img/img_alysson/footer.jpeg);
+    background-image: url(img/img_alysson/footer.jpeg);
     background-size: contain;
     color: #FFD166;
 }

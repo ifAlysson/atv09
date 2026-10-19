@@ -19,5 +19,12 @@ então, se necessário, até o momento o nome da aplicação está sendo usado e
 
 repetindo algumas partes do tutorial w3schools, terminei em django templates
 
----
 (16 outubro)
+---
+
+(17 de outubro)
+criei um layout funcional usando os arquivos estáticos (todas as imagens e css estão
+em mystaticcss;
+o botão de tema funciona com script interno no arquivo de layout.html.
+depois usar frameworks css (ver o que isso é) e javascript externo (não lembro se vai poder)
+---

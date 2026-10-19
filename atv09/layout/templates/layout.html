@@ -1,3 +1,6 @@
+<!--Carrega os estáticos-->
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -6,8 +9,33 @@
     <title>V, A, J</title>
 
     <link rel="icon" type="image/x-icon" href="img/img_vinicius/icom.ico">
-    <link rel="stylesheet" href="estrutura.css">
-    <link rel="stylesheet" href="estilos.css" id="estilos">
+    <link rel="stylesheet" href="{% static 'estrutura.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos.css' %}" id="estilos">
+
+<script>
+function temas() {
+    // Função que alterna os temas do site
+
+    // Define uma constante que guarda o acesso ao body
+    const body = document.getElementById("corpo");
+
+    if (document.getElementById('botao-tema').textContent == "Tema A") {
+        /* Se o tema A estiver selecionado, atualiza o texto do botão, remove a classe de formatação
+        tema A e adiciona tema V*/
+        document.getElementById('botao-tema').textContent = "Tema V";
+        body.classList.remove("temav");
+        body.classList.add("temaa");
+    }
+    else {
+        /* Se o tema V estiver selecionado, atualiza o texto do botão, remove a classe de formatação
+        tema V e adiciona tema A*/
+        document.getElementById('botao-tema').textContent = "Tema A";
+        body.classList.remove("temaa");
+        body.classList.add("temav");
+    }
+}
+</script>
+
 </head>
 
 <body id="corpo" class="temav">
