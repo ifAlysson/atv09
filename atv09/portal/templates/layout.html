@@ -201,7 +201,15 @@ function temas() {
 </aside>
 
     <!--main: cria o espaço que conterá o conteúdo central da página-->
-    <main id="conteudo"></main>
+	<main id="conteudo">
+		<!-- Esse trecho de código deve ser melhor atualizado para funcionar com o atributo de ativo e ser sincronizado com o model Menu,
+por enquanto ele só mostra a capa-->
+		{% for x in conteudos %}
+		{% if x.slug == "capa" %}
+		{{x.conteudo|safe}}
+		{% endif %}
+		{% endfor %}
+	</main>
     </div>
     <!--footer: cria um rodapé-->
     <footer id="rodape">

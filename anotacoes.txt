@@ -28,3 +28,8 @@ em mystaticcss;
 o botão de tema funciona com script interno no arquivo de layout.html.
 depois usar frameworks css (ver o que isso é) e javascript externo (não lembro se vai poder)
 ---
+(21 de outubro)
+como o menu lateral será editável, teremos que fazer algo depois
+para que os botões interiores da ṕágina de capa fiquem sincronizados
+com o menu lateral. não somente isso, mas deverá ser impossível criar
+um botão sem conteúdo para ele
