@@ -1,0 +1,116 @@
+/*
+Vitor Vinícius Porangaba Torres
+Alysson Matheus de Souza Rodrigues
+Jordana da Silva Ferro
+ATV 07 - 513 */
+
+/* esse arquivo cria dois temas que formatam os exatos mesmos elementos, mas de forma diferente, permitindo que o usuário possa escolher qual tema usar
+
+/* =========================
+   TEMA V
+   ========================= */
+
+#corpo.temav {
+    /* define a imagem de fundo */
+    background-image: url(../img/img_vinicius/fundo_geral2.png);
+}
+
+#corpo.temav #cabecalho {
+    /* define cores e background do cabeçalho */
+    color: #FFD700;
+    background-color: #1a1a1a;
+}
+
+#corpo.temav .barra_lateral {
+    /* define cor padrão da barra lateral */
+    background-color: #2d0000;
+}
+
+#corpo.temav #rodape {
+    /* define cor de fundo e cor de texto do rodapé */
+    background-color: #1a1a1a;
+    color: #E0E0E0;
+}
+
+#corpo.temav #conteudo {
+    /* define a imagem de fundo da parte de conteúdo */
+    background-image: url(../img/img_vinicius/fundo_curriculo.png);
+}
+
+#corpo.temav .botaoativo {
+    /* define cor de texto e fundo para os botões ativos, colocando a cor de fundo do menu lateral como cor do texto */
+    color: #2d0000;
+    background-color: #FFD700;
+}
+
+#corpo.temav .botaoinativo {
+    /* define cor de texto para botões inativos */
+    color: #B0B0B0;
+}
+
+#corpo.temav #botao-tema {
+    /* define cor de fundo e de texto para o botão que troca de temas */
+    background-color: #FFD700;
+    color: #2d0000;
+}
+
+#corpo.temav .botao-home {
+    /* define cor de fundo e de texto para os botões da capa */
+    background-color: #FFD700;
+    color: #2d0000;
+}
+
+/* =========================
+   TEMA A
+   ========================= */
+
+#corpo.temaa {
+    /* define a imagem de fundo */
+    background-image: url(../img/img_alysson/background.jpg);
+}
+
+#corpo.temaa #cabecalho {
+    /* define cores e background do cabeçalho */
+    color: #FFD166;
+    background-color: #0D1B2A;
+}
+
+#corpo.temaa .barra_lateral {
+    /* define cor padrão da barra lateral */
+    background-color: #D9D9D9;
+}
+
+#corpo.temaa #rodape {
+    /* define imagem de fundo e cor de texto do rodapé */
+    background-image: url(../img/img_alysson/footer.jpeg);
+    background-size: contain;
+    color: #FFD166;
+}
+
+#corpo.temaa #conteudo {
+    /* define a cor de fundo da parte de conteúdo */
+    background-color: white;
+}
+
+#corpo.temaa .botaoativo {
+    /* define cor de texto e fundo para os botões ativos, colocando a cor de fundo do menu lateral como cor do texto */
+    color: #D9D9D9;
+    background-color: #3A86FF;
+}
+
+#corpo.temaa .botaoinativo {
+    /* define cor de texto para botões inativos */
+    color: black;
+}
+
+#corpo.temaa #botao-tema {
+    /* define cor de fundo e de texto para o botão que troca de temas */
+    background-color: #3A86FF;
+    color: #D9D9D9;
+}
+
+#corpo.temaa .botao-home {
+    /* define cor de fundo e de texto para os botões da capa */
+    background-color: #3A86FF;
+    color: #D9D9D9;
+}

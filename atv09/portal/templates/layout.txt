@@ -1,0 +1,121 @@
+<!--Carrega os estáticos-->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V, A, J</title>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/icon.ico' %}">
+    <link rel="stylesheet" href="{% static 'estrutura.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos.css' %}" id="estilos">
+
+<script>
+function temas() {
+    // Função que alterna os temas do site
+
+    // Define uma constante que guarda o acesso ao body
+    const body = document.getElementById("corpo");
+
+    if (document.getElementById('botao-tema').textContent == "Tema A") {
+        /* Se o tema A estiver selecionado, atualiza o texto do botão, remove a classe de formatação
+        tema A e adiciona tema V*/
+        document.getElementById('botao-tema').textContent = "Tema V";
+        body.classList.remove("temav");
+        body.classList.add("temaa");
+    }
+    else {
+        /* Se o tema V estiver selecionado, atualiza o texto do botão, remove a classe de formatação
+        tema V e adiciona tema A*/
+        document.getElementById('botao-tema').textContent = "Tema A";
+        body.classList.remove("temaa");
+        body.classList.add("temav");
+    }
+}
+</script>
+
+</head>
+
+<body id="corpo" class="temav">
+
+    <noscript>
+    <div style="background: red; color: white; padding: 20px; text-align: center;">
+        Atenção: Este site utiliza JavaScript para navegação. Por favor, habilite o JavaScript no seu navegador.
+    </div>
+    </noscript>
+
+
+    <div class="meu_container">
+    <!--header: define um cabeçalho-->
+    <header id="cabecalho" color:red;>V, A, J</header>
+    <div class="grade">
+    <!--aside: define um conteúdo indiretamente relacionado ao conteúdo circundante-->
+    <aside class="barra_lateral">
+        <!--nav: cria uma seção que contém links para outras seções-->
+        <nav style="width: 100%;">
+    
+    <!--section: cria uma seção genérica-->
+    <div>
+        <button id="botao-tema" onclick="temas()">Tema A</button>
+    </div>
+</nav>
+
+
+</aside>
+
+    <!--main: cria o espaço que conterá o conteúdo central da página-->
+	<main id="conteudo">
+		<!-- Esse trecho de código deve ser melhor atualizado para funcionar com o atributo de ativo e ser sincronizado com o model Menu,
+por enquanto ele só mostra a capa-->
+		<!---{% for x in conteudos %}
+		{{x.conteudo|safe}}
+		{% endfor %}--->
+	</main>
+    </div>
+    <!--footer: cria um rodapé-->
+    <footer id="rodape">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Integrantes</th>
+                    <th>E-mail</th>
+                    <th>Celular</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: white;">Vitor Vinícius Porangaba Torres</td>
+                    <td><a href="mailto:vvpt1@aluno.ifal.edu.br" style="color: #B0B0B0">vvpt1@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (82) 99914-0658</td>
+                </tr>
+                <tr>
+                    <td style="color: white;">Alysson Matheus de Souza Rodrigues</td>
+                    <td><a href="mailto:amsr1@aluno.ifal.edu.br" style="color: #B0B0B0">amsr1@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (87) 98170-3835</td>
+                </tr>
+                <tr>
+                    <td style="color: white;">Jordana da Silva Ferro</td>
+                    <td><a href="mailto:jsf23@aluno.ifal.edu.br" style="color: #B0B0B0">jsf23@aluno.ifal.edu.br</a></td>
+                    <td style="color: #B0B0B0">+55 (82) 98103-8466</td>
+                </tr>
+            </tbody>
+        </table>
+    </footer>
+    </div>
+
+    <script>
+        // inicializa a página carregando a capa automaticamente
+        carregarConteudo("arquivos_html/capa.html");
+
+        // procura algum tema na URL da página. Ele só existirá caso o usuário acesse index.html retornando da página sucesso.html, e assim a mudança abrupta de temas decorrente da troca de páginas será neutralizada. Se não houver tema na URL, o if não é executado pois tema == null
+        const parametros = new URLSearchParams(window.location.search);
+        const tema = parametros.get("tema");
+        if (tema) {
+            document.getElementById("corpo").classList.remove("temaa", "temav");
+            document.getElementById("corpo").classList.add(tema);
+        }
+    </script>
+</body>
+</html>

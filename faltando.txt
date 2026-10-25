@@ -1,0 +1,4 @@
+- Fazer botões serem funcionais;
+- Fazer view que, ao mudar de conteúdo, mantém aberto TODOS os controladores já abertos ainda abertos e atualiza o botão selecionado
+- Botões da capa;
+

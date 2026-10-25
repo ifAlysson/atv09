@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo_pagina %}V, A, J{% endblock %}</title>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/icon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/estrutura.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}" id="estilos">
+
+    <script>
+        function temas() {
+            const body = document.getElementById("corpo");
+            const botao = document.getElementById("botao-tema");
+
+            if (botao.textContent.trim() === "Tema A") {
+                botao.textContent = "Tema V";
+                body.classList.remove("temav");
+                body.classList.add("temaa");
+            } else {
+                botao.textContent = "Tema A";
+                body.classList.remove("temaa");
+                body.classList.add("temav");
+            }
+        }
+
+        function alternarGrupo(event, id) {
+            event.preventDefault();
+
+            const grupo = document.getElementById(id);
+
+            if (grupo) {
+                grupo.hidden = !grupo.hidden;
+            }
+        }
+    </script>
+</head>
+
+<body id="corpo" class="temav">
+
+    <noscript>
+        <div style="background: red; color: white; padding: 20px; text-align: center;">
+            Atenção: Este site utiliza JavaScript para navegação.
+            Por favor, habilite o JavaScript no seu navegador.
+        </div>
+    </noscript>
+
+    <div class="meu_container">
+
+        <!-- Cabeçalho -->
+        <header id="cabecalho">V, A, J</header>
+
+        <div class="grade">
+
+            <!-- Barra lateral -->
+            <aside class="barra_lateral">
+
+                <nav style="width: 100%;">
+
+                    {% for elemento in elementos_menu %}
+
+                        {% if elemento.tipo == 'grupo' %}
+
+                            <!-- Controlador do grupo -->
+                            <div>
+                                <a href="#"
+                                   class="botoes-nav botaoinativo"
+                                   onclick="alternarGrupo(event, 'grupo-{{ elemento.objeto.id }}')">
+                                    {{ elemento.objeto.titulo }}
+                                </a>
+
+                                <!-- O grupo fica aberto se contiver a página atual -->
+                                <div id="grupo-{{ elemento.objeto.id }}"
+                                     {% if grupo_aberto == elemento.objeto.id %}
+                                     {% else %}
+                                         hidden
+                                     {% endif %}>
+
+                                    {% for botao in elemento.botoes %}
+
+                                        {% if botao.tipo_destino == 'interno' %}
+
+                                            {% if botao.conteudo_relacionado and botao.conteudo_relacionado.slug %}
+                                                <div>
+                                                    <a
+                                                        href="{% url 'conteudo' slug=botao.conteudo_relacionado.slug %}"
+                                                        class="botoes-nav {% if conteudo_atual and botao.conteudo_relacionado_id == conteudo_atual.id %}botaoativo{% else %}botaoinativo{% endif %}">
+                                                        {{ botao.titulo }}
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+
+                                        {% elif botao.tipo_destino == 'externo' %}
+
+                                            {% if botao.url_externo %}
+                                                <div>
+                                                    <a href="{{ botao.url_externo }}"
+                                                       class="botoes-nav botaoinativo"
+                                                       target="_blank"
+                                                       rel="noopener noreferrer">
+                                                        {{ botao.titulo }}
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+
+                        {% else %}
+
+                            <!-- Botão independente -->
+                            {% if elemento.objeto.tipo_destino == 'interno' %}
+
+                                {% if elemento.objeto.conteudo_relacionado and elemento.objeto.conteudo_relacionado.slug %}
+                                    <div>
+                                        <a
+                                            href="{% url 'conteudo' slug=elemento.objeto.conteudo_relacionado.slug %}"
+                                            class="botoes-nav {% if conteudo_atual and elemento.objeto.conteudo_relacionado_id == conteudo_atual.id %}botaoativo{% else %}botaoinativo{% endif %}">
+                                            {{ elemento.objeto.titulo }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+
+                            {% elif elemento.objeto.tipo_destino == 'externo' %}
+
+                                {% if elemento.objeto.url_externo %}
+                                    <div>
+                                        <a href="{{ elemento.objeto.url_externo }}"
+                                           class="botoes-nav botaoinativo"
+                                           target="_blank"
+                                           rel="noopener noreferrer">
+                                        {{ elemento.objeto.titulo }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    <!-- Botão de alternância de tema -->
+                    <div>
+                        <button id="botao-tema" type="button" onclick="temas()">
+                            Tema A
+                        </button>
+                    </div>
+
+                </nav>
+
+            </aside>
+
+            <!-- Conteúdo central -->
+            <main id="conteudo">
+                {% block conteudo_pagina %}
+                {% endblock %}
+            </main>
+
+        </div>
+
+        <!-- Rodapé -->
+        <footer id="rodape">
+            <table style="width: 100%;">
+
+                <thead>
+                    <tr>
+                        <th>Integrantes</th>
+                        <th>E-mail</th>
+                        <th>Celular</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td style="color: white;">
+                            Vitor Vinícius Porangaba Torres
+                        </td>
+                        <td>
+                            <a href="mailto:vvpt1@aluno.ifal.edu.br"
+                               style="color: #B0B0B0">
+                                vvpt1@aluno.ifal.edu.br
+                            </a>
+                        </td>
+                        <td style="color: #B0B0B0">
+                            +55 (82) 99914-0658
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="color: white;">
+                            Alysson Matheus de Souza Rodrigues
+                        </td>
+                        <td>
+                            <a href="mailto:amsr1@aluno.ifal.edu.br"
+                               style="color: #B0B0B0">
+                                amsr1@aluno.ifal.edu.br
+                            </a>
+                        </td>
+                        <td style="color: #B0B0B0">
+                            +55 (87) 98170-3835
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="color: white;">
+                            Jordana da Silva Ferro
+                        </td>
+                        <td>
+                            <a href="mailto:jsf23@aluno.ifal.edu.br"
+                               style="color: #B0B0B0">
+                                jsf23@aluno.ifal.edu.br
+                            </a>
+                        </td>
+                        <td style="color: #B0B0B0">
+                            +55 (82) 98103-8466
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </footer>
+
+    </div>
+
+</body>
+</html>

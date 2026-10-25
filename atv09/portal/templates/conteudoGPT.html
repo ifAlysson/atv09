@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block titulo_pagina %}
+    {{ conteudo.titulo }} | V, A, J
+{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <h2>{{ conteudo.titulo }}</h2>
+
+    <div>
+        {{ conteudo.conteudo|safe }}
+    </div>
+
+{% endblock %}

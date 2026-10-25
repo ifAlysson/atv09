@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block botoes %}
+    {% for botao in botoes %}
+        <section class="botoes-nav botaoinativo">
+            <h2>
+                <a>{{botao.nome_exibicao}}</a>
+            </h2>
+        </section>
+    {% endfor %}
+{% endblock %}
+
+{% block conteudo %}
+    {{ capa.conteudo|safe }}
+{% endblock %}

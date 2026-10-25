@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'portal'
+    'portal'
 ]
 
 MIDDLEWARE = [
@@ -118,12 +118,8 @@ USE_TZ = True
 
 # Essa linha define os arquivos estáticos que precisamos pro nosso CSS
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-	BASE_DIR / 'mystaticcss',
-]
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
