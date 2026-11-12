@@ -7,10 +7,8 @@ from .models import Conteudo, Menu, GrupoMenu
 def obter_botoes():
     """Retorna uma lista com instâncias ativas de Menu e tuplas no fomarto (GrupoMenu, [subordinados ao GrupoMenu]).
 Todo botão que tiver um controlador é retornado como um item de uma lista numa tupla cujo primeiro índice é o controlador e o segundo os controlados.
-Na saída, a lista contém essas tuplas e botões independentes, então cuidado com a mistura de tipos na saída.
-A saída é ordenada mesclando a ordem dos botões normais e controladores em O(N^2)."""
-
-    """Retorna uma lista com instâncias de Menu e GrupoMenu organizadas corretamente para o Django HTML criar os botões na ordem e divisão de grupos correta"""
+A saída é ordenada mesclando a ordem dos botões normais e controladores em O(N^2).
+Retorna uma lista com instâncias de Menu e GrupoMenu organizadas corretamente para o Django HTML criar os botões na ordem e divisão de grupos correta"""
 
     botoes_acesso = Menu.objects.all()
     
@@ -103,134 +101,9 @@ O erro é retornado como HTML exibido dentro do portal"""
     }
     
     return HttpResponse(template.render(context, request))
-                
-
-"""def obter_elementos_menu():
-	botoes_conteudo = Menu.objects.all()
-	botoes_controle = Menu.objects.all()
-
-        elementos = list()
-        controladores = dict()
-        
-	for botao in botoes_conteudo:
-                if type(botao)"""
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def obter_elementos_menu2():
-    menus = list(Menu.objects.filter(ativo=True))
-    grupos = list(GrupoMenu.objects.filter(ativo=True))
-
-    elementos = []
-
-    # Adiciona os botões independentes
-    for menu in menus:
-        if menu.controlador_id is None:
-            elementos.append({
-                'tipo': 'botao',
-                'objeto': menu
-            })
-
-    # Adiciona os grupos e seus botões
-    for grupo in grupos:
-        botoes = [
-            menu for menu in menus
-            if menu.controlador_id == grupo.id
-        ]
-
-        # Ordena os botões internos usando Bubble Sort
-        n = len(botoes)
-
-        for i in range(n):
-            for j in range(n - i - 1):
-                if botoes[j].ordem > botoes[j + 1].ordem:
-                    botoes[j], botoes[j + 1] = (
-                        botoes[j + 1],
-                        botoes[j]
-                    )
-
-        elementos.append({
-            'tipo': 'grupo',
-            'objeto': grupo,
-            'botoes': botoes
-        })
-
-    # Ordena grupos e botões independentes por ordem
-    n = len(elementos)
-
-    for i in range(n):
-        for j in range(n - i - 1):
-            a = elementos[j]
-            b = elementos[j + 1]
-
-            ordem_a = a['objeto'].ordem
-            ordem_b = b['objeto'].ordem
-
-            trocar = ordem_a > ordem_b
-
-            # Em caso de empate, o grupo vem primeiro
-            if ordem_a == ordem_b:
-                if a['tipo'] == 'botao' and b['tipo'] == 'grupo':
-                    trocar = True
-
-            if trocar:
-                elementos[j], elementos[j + 1] = (
-                    elementos[j + 1],
-                    elementos[j]
-                )
-
-    return elementos
-
-
-def menu_view(request):
-    return render(request, 'layout.html', {
-        'elementos_menu': obter_elementos_menu(),
-        'conteudo_atual': None,
-        'grupo_aberto': None,
-    })
-
-
-def exibir_conteudo(request, slug):
-    conteudo = get_object_or_404(
-        Conteudo,
-        slug=slug,
-        ativo=True
-    )
-
-    # Descobre qual botão do menu leva a este conteúdo.
-    botao_atual = Menu.objects.filter(
-        conteudo_relacionado=conteudo,
-        ativo=True
-    ).first()
-
-    # Descobre o grupo controlador desse botão, se houver.
-    grupo_aberto = None
-
-    if botao_atual and botao_atual.controlador_id is not None:
-        grupo_aberto = botao_atual.controlador_id
-
-    return render(request, 'conteudo.html', {
-        'conteudo': conteudo,
-        'elementos_menu': obter_elementos_menu(),
-        'conteudo_atual': conteudo,
-        'grupo_aberto': grupo_aberto,
-    })

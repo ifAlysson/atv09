@@ -1,0 +1,32 @@
+mlk, essa explicacao vai ser bem porca, mas vamos la
+LEIA O QUE ESTÁ FALTANDO ANTES!!!!
+
+tem três models: Menu, GrupoMenu e Conteudo
+as configurações dos models já está 100% feita, À EXCEÇÃO do model conteúdo da ouvidoria e que os botões que ficam no conteúdo capa não funcionam
+não se preocupe em configurar model nenhum, então
+se vc não entende a correlação entre models, views e urls no Django, PESQUISE PRA ENTENDER, é importante,
+MAS NÃO GASTA TEMPO DEMAIS NISSO PORQUE NAO TEMOS
+
+existem três arquivos dentro de templates:
+base, index e conteudo
+a base é o que estrutura o layout
+o index utiliza uma view pra exibir o conteúdo da capa
+o conteudo vai utilizar uma view q vc vai criar pra exibir os conteudos que são clicados pelos botoes
+
+como nossa atv anterior tinha aquilo dos grupos de botões pros currículos e temas (que vc aperta e alterna se os botoes
+são exibidos ou não), eu fiz uma view que pega todos os botões (os que acessam um conteúdo/link externo eu chamo de botão normal ou menu, os
+que alternam a visibilidade de um grupo são os controladores ou grupomenu) e exibe eles na barra lateral. você precisa
+usar a linguagem do django para templates para fazer com que o código receba todos os botões e saiba quando criar gruposmenu funcionais ou botoes
+funcionais
+
+alem disso, precisa que, quando os botões normais que vão pra conteúdo interno forem acessados, os controladores que estão abertos se permanecam
+abertos e os fechado permanecam fechados. por exemplo, se vc acessar a capa e tiver o currículos aberto, mas o temas fechado, o currículos tem que 
+continuar aberto e o temas continuar fechado, porque nosso site antigo funcionava dessa mesma forma. se vc não fizer isso, toda vez que um botão
+interno for acessado, os controladores vão fechar automaticamente e vai ficar feio
+
+também é bom que aqueles botões da capa sejam funcionais, mas eles vão precisar de algum código django pra poderem ser flexíveis com a adição ou
+remoção de novos currículos. vc pode mudar eles um pouco, o layout e tal, se quiser
+
+por fim, faz o readme. vc nao vai saber como todo o site funciona, mas faça. quando eu chegar em casa eu vou ver tudo, corrigir oq der tempo de corrigir
+e enviar. não envie a atividade, só faça o commit quando terminar e eu vou ver se tem algo q vc não fez direito por não ter entendido ou algo do tipo
+se quiser, usa ia tbm, voce nao tem tempo pra ficar gastando msm

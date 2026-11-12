@@ -1,4 +1,7 @@
 - Fazer botões serem funcionais;
-- Fazer view que, ao mudar de conteúdo, mantém aberto TODOS os controladores já abertos ainda abertos e atualiza o botão selecionado
-- Botões da capa;
-
+- Fazer com que o template crie os grupos de botões automaticamente;
+- Fazer view que mantem grupos de controladores abertos/fechados ao mudar de página; 
+- Fazer página da ouvidoria da atv07 -- LEMBRAR QUE ELA TEM DUAS PARTES, a ouvidoria formulário e a ouvidoria sucesso, e 
+	apertar pra enviar o formulário a página muda pra ouvidoria: sucesso;
+- Fazer com que os botões que aparecem na capa sejam funcionais E flexíveis as instâncias do model conteudos;
+- Fazer readme.md
