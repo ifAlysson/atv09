@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block conteudo %}
+<section class="pagina-ouvidoria">
+    <form method="post" id="formulario" action="{% url 'ouvidoria' %}">
+        {% csrf_token %}
+        <fieldset>
+            <legend><strong>Ouvidoria ✨</strong></legend>
+            <div class="cabecalho-formulario">
+                <img src="{% static 'img/ouvidoria.jpg' %}"
+                     alt="Ilustração da página da ouvidoria"
+                     class="imagem-formulario">
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="erros-formulario">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="campo-formulario">
+                <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}:</label>
+                {{ form.nome }}
+                {{ form.nome.errors }}
+            </div>
+
+            <div class="campo-formulario">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="campo-formulario">
+                <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }} (11 números):</label>
+                {{ form.telefone }}
+                {{ form.telefone.errors }}
+            </div>
+
+            <div class="campo-formulario">
+                <label for="{{ form.assunto.id_for_label }}">{{ form.assunto.label }}:</label>
+                {{ form.assunto }}
+                {{ form.assunto.errors }}
+            </div>
+
+            <div class="campo-formulario">
+                <span class="rotulo-campo">{{ form.perfil.label }}:</span>
+                <div class="opcoes-radio">
+                    {{ form.perfil }}
+                </div>
+                {{ form.perfil.errors }}
+            </div>
+
+            <div class="campo-formulario">
+                <label for="{{ form.mensagem.id_for_label }}">{{ form.mensagem.label }} (mínimo de 15 caracteres):</label>
+                {{ form.mensagem }}
+                {{ form.mensagem.errors }}
+            </div>
+
+            <div class="acoes-formulario">
+                <button type="submit" class="botao-home">Enviar</button>
+                <button type="reset" class="botao-home">Limpar</button>
+            </div>
+        </fieldset>
+    </form>
+</section>
+{% endblock %}

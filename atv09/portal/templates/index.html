@@ -1,15 +1,25 @@
 {% extends "layout.html" %}
 
-{% block botoes %}
-    {% for botao in botoes %}
-        <section class="botoes-nav botaoinativo">
-            <h2>
-                <a>{{botao.nome_exibicao}}</a>
-            </h2>
-        </section>
-    {% endfor %}
-{% endblock %}
-
 {% block conteudo %}
-    {{ capa.conteudo|safe }}
+    <section class="conteudo-capa">
+        {{ capa.conteudo|safe }}
+    </section>
+
+    <section class="secao-conteudos" aria-labelledby="titulo-conteudos">
+        <h2 id="titulo-conteudos">Explore nossos conteúdos</h2>
+        <p>Escolha uma página para conhecer mais sobre os integrantes e seus interesses.</p>
+
+        <div class="grade-conteudos">
+            {% for item in conteudos_capa %}
+                <article class="cartao-conteudo">
+                    <h3>{{ item.titulo }}</h3>
+                    <a class="botao-home" href="{% url 'conteudo' item.slug %}">
+                        Acessar página
+                    </a>
+                </article>
+            {% empty %}
+                <p>Nenhum conteúdo ativo foi cadastrado além da capa.</p>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}

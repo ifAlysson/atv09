@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block conteudo %}
+<section class="pagina-sucesso">
+    <h1>✨ Mensagem enviada! ✨</h1>
+
+    {% if confirmacao %}
+        <p>
+            Obrigado, <strong>{{ confirmacao.nome }}</strong>!<br><br>
+            Recebemos sua solicitação com sucesso. Em breve, entraremos em contato
+            pelo e-mail <strong>{{ confirmacao.email }}</strong>.
+        </p>
+    {% else %}
+        <p>O formulário da ouvidoria foi concluído. Agradecemos pelo contato!</p>
+    {% endif %}
+
+    <img src="{% static 'img/sucesso.jpeg' %}"
+         alt="Ilustração de confirmação do envio"
+         class="imagem-sucesso">
+
+    <p><a href="{% url 'menu' %}" class="botao-home">Voltar para a página inicial</a></p>
+</section>
+{% endblock %}

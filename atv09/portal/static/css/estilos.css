@@ -114,3 +114,43 @@ ATV 07 - 513 */
     background-color: #3A86FF;
     color: #D9D9D9;
 }
+
+/* Cores dos links e controladores do menu lateral */
+#corpo.temav .link-menu.botaoativo,
+#corpo.temav .botao-controlador.botaoativo {
+    color: #2d0000;
+    background-color: #FFD700;
+}
+
+#corpo.temav .link-menu.botaoinativo,
+#corpo.temav .botao-controlador.botaoinativo {
+    color: #B0B0B0;
+    background-color: transparent;
+}
+
+#corpo.temaa .link-menu.botaoativo,
+#corpo.temaa .botao-controlador.botaoativo {
+    color: #D9D9D9;
+    background-color: #3A86FF;
+}
+
+#corpo.temaa .link-menu.botaoinativo,
+#corpo.temaa .botao-controlador.botaoinativo {
+    color: #111;
+    background-color: transparent;
+}
+
+#corpo.temav .cartao-conteudo {
+    border-color: #8b6e00;
+    background-color: rgba(255, 255, 255, 0.88);
+}
+
+#corpo.temaa .cartao-conteudo {
+    border-color: #3A86FF;
+    background-color: rgba(255, 255, 255, 0.96);
+}
+
+#corpo.temav .pagina-ouvidoria,
+#corpo.temav .pagina-sucesso {
+    color: #222;
+}

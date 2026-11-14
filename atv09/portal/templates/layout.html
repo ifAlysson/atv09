@@ -1,82 +1,186 @@
-<!--Carrega os estáticos-->
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+
     <title>V, A, J</title>
 
     <link rel="icon" type="image/x-icon" href="{% static 'img/icon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/estrutura.css' %}">
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}" id="estilos">
 
-<script>
-function temas() {
-    // Função que alterna os temas do site
-
-    // Define uma constante que guarda o acesso ao body
-    const body = document.getElementById("corpo");
-
-    if (document.getElementById('botao-tema').textContent == "Tema A") {
-        /* Se o tema A estiver selecionado, atualiza o texto do botão, remove a classe de formatação
-        tema A e adiciona tema V*/
-        document.getElementById('botao-tema').textContent = "Tema V";
-        body.classList.remove("temav");
-        body.classList.add("temaa");
-    }
-    else {
-        /* Se o tema V estiver selecionado, atualiza o texto do botão, remove a classe de formatação
-        tema V e adiciona tema A*/
-        document.getElementById('botao-tema').textContent = "Tema A";
-        body.classList.remove("temaa");
-        body.classList.add("temav");
-    }
-}
-</script>
-
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body id="corpo" class="temav">
 
     <noscript>
-    <div style="background: red; color: white; padding: 20px; text-align: center;">
-        Atenção: Este site utiliza JavaScript para navegação. Por favor, habilite o JavaScript no seu navegador.
-    </div>
+        <div class="aviso-javascript">
+            Atenção: habilite o JavaScript para alternar o tema do site.
+            A navegação continua funcionando sem ele.
+        </div>
     </noscript>
 
-
     <div class="meu_container">
-    
-    <!--header: define um cabeçalho-->
+
         <header id="cabecalho">V, A, J</header>
-    
-    <div class="grade">
 
-    <!--aside: define um conteúdo indiretamente relacionado ao conteúdo circundante-->
-    <aside class="barra_lateral">
-        <!--nav: cria uma seção que contém links para outras seções-->
-    <nav style="width: 100%;">
-    <!-- Área dos botões-->
-        {% block botoes %}
-        {% endblock %}
+        <div class="grade">
 
-    <div>
-        <button id="botao-tema" onclick="temas()">Tema A</button>
-    </div>
-    </nav>
-    </aside>
+            <aside class="barra_lateral">
 
-    <!--main: cria o espaço que conterá o conteúdo central da página-->
-	<main id="conteudo">
-        {% block conteudo %}
-        {% endblock %}
-	</main>
-    </div>
-    
-    <!--footer: cria um rodapé-->
-    <footer id="rodape">
+                <nav aria-label="Menu principal">
+
+                    <!-- Link para a página inicial -->
+                    <h2 class="{% if pagina_atual == 'capa' %}botaoativo{% else %}botaoinativo{% endif %}">
+                        <a class="link-menu {% if pagina_atual == 'capa' %}botaoativo{% else %}botaoinativo{% endif %}"
+                           href="{% url 'menu' %}"
+                           {% if pagina_atual == 'capa' %}aria-current="page"{% endif %}>
+                            Início
+                        </a>
+                    </h2>
+
+                    {% for item in itens_menu %}
+
+                        {% if item.tipo == 'grupo' %}
+
+                            <section class="grupo-menu">
+
+                                <!-- Controlador do grupo -->
+                                <form method="post" action="{% url 'alternar_grupo' item.grupo.pk %}">
+
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+                                    <h2 class="{% if item.aberto %}botaoativo{% else %}botaoinativo{% endif %}">
+                                        <a href="#"
+                                           class="link-menu {% if item.aberto %}botaoativo{% else %}botaoinativo{% endif %}"
+                                           role="button"
+                                           aria-expanded="{% if item.aberto %}true{% else %}false{% endif %}"
+                                           onclick="event.preventDefault(); this.closest('form').requestSubmit();">
+
+                                            {{ item.grupo.nome_exibicao }}
+
+                                            <span class="indicador-grupo" aria-hidden="true">
+                                                {% if item.aberto %}−{% else %}+{% endif %}
+                                            </span>
+
+                                        </a>
+                                    </h2>
+
+                                </form>
+
+                                {% if item.aberto %}
+
+                                    <div class="submenu-grupo">
+
+                                        {% for botao in item.botoes %}
+
+                                            {% if botao.tipo_destino == 'interno' %}
+
+                                                <!-- Botão interno do grupo -->
+                                                <h2 class="{% if pagina_atual == botao.conteudo_relacionado.slug %}botaoativo{% else %}botaoinativo{% endif %}">
+
+                                                    <a class="link-menu link-submenu {% if pagina_atual == botao.conteudo_relacionado.slug %}botaoativo{% else %}botaoinativo{% endif %}"
+                                                       href="{% url 'conteudo' botao.conteudo_relacionado.slug %}"
+                                                       {% if pagina_atual == botao.conteudo_relacionado.slug %}aria-current="page"{% endif %}>
+
+                                                        {{ botao.nome_exibicao }}
+
+                                                    </a>
+
+                                                </h2>
+
+                                            {% else %}
+
+                                                <!-- Botão externo do grupo -->
+                                                <h2 class="botaoinativo">
+
+                                                    <a class="link-menu link-submenu botaoinativo"
+                                                       href="{{ botao.url_externo }}"
+                                                       target="_blank"
+                                                       rel="noopener noreferrer">
+
+                                                        {{ botao.nome_exibicao }} ↗
+
+                                                    </a>
+
+                                                </h2>
+
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </section>
+
+                        {% else %}
+
+                            {% if item.menu.tipo_destino == 'interno' %}
+
+                                <!-- Botão interno independente -->
+                                <h2 class="{% if pagina_atual == item.menu.conteudo_relacionado.slug %}botaoativo{% else %}botaoinativo{% endif %}">
+
+                                    <a class="link-menu {% if pagina_atual == item.menu.conteudo_relacionado.slug %}botaoativo{% else %}botaoinativo{% endif %}"
+                                       href="{% url 'conteudo' item.menu.conteudo_relacionado.slug %}"
+                                       {% if pagina_atual == item.menu.conteudo_relacionado.slug %}aria-current="page"{% endif %}>
+
+                                        {{ item.menu.nome_exibicao }}
+
+                                    </a>
+
+                                </h2>
+
+                            {% else %}
+
+                                <!-- Botão externo independente -->
+                                <h2 class="botaoinativo">
+
+                                    <a class="link-menu botaoinativo"
+                                       href="{{ item.menu.url_externo }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer">
+
+                                        {{ item.menu.nome_exibicao }} ↗
+
+                                    </a>
+
+                                </h2>
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    <!-- Controle de tema -->
+                    <div class="controle-tema">
+
+                        <button id="botao-tema" type="button" onclick="temas()">
+                            Tema A
+                        </button>
+
+                    </div>
+
+                </nav>
+
+            </aside>
+
+            <main id="conteudo">
+                {% block conteudo %}{% endblock %}
+            </main>
+
+        </div>
+
+        <footer id="rodape">
         <table style="width: 100%;">
             <thead>
                 <tr>
@@ -104,21 +208,62 @@ function temas() {
             </tbody>
         </table>
     </footer>
+
     </div>
 
-    <!-- Apagar esse script-->s
     <script>
-        // inicializa a página carregando a capa automaticamente
-        carregarConteudo("arquivos_html/capa.html");
 
-        // procura algum tema na URL da página. Ele só existirá caso o usuário acesse index.html retornando da página sucesso.html, e assim a mudança abrupta de temas decorrente da troca de páginas será neutralizada. Se não houver tema na URL, o if não é executado pois tema == null
-        const parametros = new URLSearchParams(window.location.search);
-        const tema = parametros.get("tema");
-        if (tema) {
-            document.getElementById("corpo").classList.remove("temaa", "temav");
-            document.getElementById("corpo").classList.add(tema);
+        // Aplica o tema selecionado e atualiza sua persistência.
+        function aplicarTema(tema) {
+
+            const corpo = document.getElementById('corpo');
+
+            corpo.classList.remove('temav', 'temaa');
+            corpo.classList.add(tema);
+
+            document.getElementById('botao-tema').textContent =
+                tema === 'temav' ? 'Tema A' : 'Tema V';
+
+            try {
+                localStorage.setItem('temaPortal', tema);
+            } catch (erro) {
+                // O site continua funcional caso o navegador bloqueie o armazenamento local.
+            }
+
         }
+
+        // Alterna entre os temas V e A.
+        function temas() {
+
+            const temaAtual = document.getElementById('corpo')
+                .classList.contains('temav') ? 'temav' : 'temaa';
+
+            aplicarTema(temaAtual === 'temav' ? 'temaa' : 'temav');
+
+        }
+
+        // Recupera o último tema utilizado pelo usuário.
+        (function restaurarTema() {
+
+            try {
+
+                const temaSalvo = localStorage.getItem('temaPortal');
+
+                if (temaSalvo === 'temav' || temaSalvo === 'temaa') {
+                    aplicarTema(temaSalvo);
+                } else {
+                    aplicarTema('temav');
+                }
+
+            } catch (erro) {
+                aplicarTema('temav');
+            }
+
+        })();
+
     </script>
+
+    {% block extra_js %}{% endblock %}
 
 </body>
 </html>

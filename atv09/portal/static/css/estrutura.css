@@ -229,3 +229,266 @@ main#conteudo { /*id*/
         font-size: 200%; /* Diminui o título principal para não quebrar feio no celular */
     }
 }
+/* Navegação dinâmica (menus independentes e grupos controladores) */
+.barra_lateral nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 12px;
+}
+
+.link-menu,
+.botao-controlador {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 40px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 10px;
+    font: inherit;
+    font-weight: bold;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s;
+}
+
+.link-menu:hover,
+.botao-controlador:hover,
+.botao-home:hover,
+#botao-tema:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+.grupo-menu {
+    width: 100%;
+}
+
+.grupo-menu form {
+    margin: 0;
+}
+
+.submenu-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 6px 0 4px 10px;
+    padding-left: 8px;
+    border-left: 2px solid currentColor;
+}
+
+.link-submenu {
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 0.94rem;
+}
+
+.indicador-grupo {
+    margin-left: 8px;
+    font-size: 1.2rem;
+}
+
+.controle-tema {
+    margin-top: 8px;
+}
+
+/* Conteúdos gerados automaticamente na capa */
+.apresentacao-capa {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.imagem-boas-vindas {
+    display: block;
+    width: min(100%, 620px);
+    height: auto;
+    margin: 0 auto 18px;
+    border-radius: 10px;
+}
+
+.secao-conteudos {
+    margin-top: 24px;
+}
+
+.grade-conteudos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.cartao-conteudo {
+    display: flex;
+    min-height: 125px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px;
+    border: 1px solid #b8b8b8;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.cartao-conteudo h3 {
+    margin: 0;
+}
+
+.botao-home {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.pagina-conteudo,
+.conteudo-capa {
+    overflow-wrap: anywhere;
+}
+
+#conteudo img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Formulário e confirmação da ouvidoria */
+.pagina-ouvidoria,
+.pagina-sucesso {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.pagina-ouvidoria fieldset {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #9b9b9b;
+    border-radius: 12px;
+}
+
+.pagina-ouvidoria legend {
+    padding: 0 8px;
+    font-size: 1.5rem;
+}
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 18px 0;
+}
+
+.campo-formulario label,
+.rotulo-campo {
+    font-weight: bold;
+}
+
+.caixaformulario {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #888;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.opcoes-radio {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+}
+
+.opcao-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: normal !important;
+}
+
+.acoes-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.erros-formulario,
+.errorlist {
+    color: #b00020;
+}
+
+.errorlist {
+    margin: 4px 0 0;
+    padding-left: 20px;
+}
+
+.pagina-sucesso {
+    padding: 25px 10px;
+    text-align: center;
+}
+
+.imagem-sucesso {
+    width: min(250px, 80%);
+    margin: 16px auto;
+    border-radius: 10px;
+}
+
+.aviso-javascript {
+    padding: 14px;
+    background: #9b0000;
+    color: #fff;
+    text-align: center;
+}
+
+.tabela-rodape {
+    width: 100%;
+}
+
+.tabela-rodape a {
+    color: inherit;
+}
+
+@media screen and (max-width: 768px) {
+    .barra_lateral nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        align-items: start;
+    }
+
+    .grupo-menu,
+    .controle-tema {
+        min-width: 0;
+    }
+
+    .submenu-grupo {
+        margin-left: 4px;
+        padding-left: 5px;
+    }
+
+    .pagina-ouvidoria fieldset {
+        padding: 12px;
+    }
+
+    .imagem-formulario {
+        position: static;
+        display: block;
+        width: min(180px, 55%);
+        margin: 12px auto;
+    }
+}
+
+/* A imagem da ouvidoria fica no fluxo do formulário para não cobrir os campos. */
+.cabecalho-formulario {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 14px;
+}
+
+.imagem-formulario {
+    position: static;
+    display: block;
+    width: min(200px, 55%);
+    height: auto;
+    border-radius: 10px;
+}

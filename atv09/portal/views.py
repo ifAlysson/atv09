@@ -1,109 +1,168 @@
-from django.http import HttpResponse
-from django.template import loader
-from django.shortcuts import render, get_object_or_404
-from .models import Conteudo, Menu, GrupoMenu
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_POST
+
+from .forms import OuvidoriaForm
+from .models import Conteudo, GrupoMenu, Menu
 
 
-def obter_botoes():
-    """Retorna uma lista com instâncias ativas de Menu e tuplas no fomarto (GrupoMenu, [subordinados ao GrupoMenu]).
-Todo botão que tiver um controlador é retornado como um item de uma lista numa tupla cujo primeiro índice é o controlador e o segundo os controlados.
-A saída é ordenada mesclando a ordem dos botões normais e controladores em O(N^2).
-Retorna uma lista com instâncias de Menu e GrupoMenu organizadas corretamente para o Django HTML criar os botões na ordem e divisão de grupos correta"""
+SESSION_GRUPOS_ABERTOS = 'grupos_menu_abertos'
 
-    botoes_acesso = Menu.objects.all()
-    
-    elementos = list()
-    controladores = dict()
-    for botao in botoes_acesso:
-        # Percorre todos os botões de acesso
-        if botao.ativo:
-            # Nos que estiverem ativos...
-            if botao.controlador is not None and botao.controlador.ativo:
-                # ... veja se ele tem um controlador ativo. Se tiver, adicione em controladores...
-                controladores.setdefault(botao.controlador, []).append(botao)
-                """try:
-                    controladores[botao.controlador].append(botao)
-                except KeyError:
-                    controladores[botao.controlador] = [botao]"""
-            else:
-                # ... se não tiver, adicione em elementos.
-                elementos.append(botao)
 
-    # Adicione todos os controladores em elementos no formato (controlador, [controlados])
-    for controlador in controladores.keys():
-        elementos.append((controlador, controladores[controlador]))
+def obter_itens_menu(request):
+    """Monta o menu lateral a partir dos registros ativos do banco.
 
-    # Este bubble sort ordena os botões mesclando a ordem dos botões normais e dos controladores
-    # Como é possível que um normal e um controlador tenham o mesmo valor na ordem, o controlador fica sempree depois de um normal nesse caso
-    ordenado = False
-    while not ordenado:
-        ordenado = True
-        # Descobre as ordens dos dois elementos, tratando a diferença de tipos da lista
-        for i in range(len(elementos) - 1):
-            try:
-                ordemi1 = elementos[i].ordem
-            except:
-                ordemi1 = elementos[i][0].ordem
-            try:
-                ordemi2 = elementos[i + 1].ordem
-            except:
-                ordemi2 = elementos[i + 1][0].ordem
+    Cada item retornado é um botão independente ou um grupo controlador com
+    seus respectivos botões subordinados. A ordem dos dois tipos de item é
+    respeitada, e grupos sem botões válidos não são exibidos.
+    """
+    grupos_abertos = request.session.get(SESSION_GRUPOS_ABERTOS, {})
+    if not isinstance(grupos_abertos, dict):
+        grupos_abertos = {}
 
-            if ordemi1 == ordemi2: #Identifica um normal e um controlador sendo comparados
-                if type(elementos[i]) is tuple: # Identifica que o controlador vem antes, logo está desordenado
-                    ordenado = False
-                    aux = elementos[i] #OBS: USAR [:] ??
-                    elementos[i] = elementos[i + 1]
-                    elementos[i + 1] = aux
-            else: #Identifica dois elementos do mesmo tipo sendo comparados
-                if ordemi1 > ordemi2: # Se a primeira ordem for maior que a segunda, está desordenado
-                    ordenado = False
-                    aux = elementos[i] #OBS IDEM!!
-                    elementos[i] = elementos[i + 1]
-                    elementos[i + 1] = aux
+    grupos = {
+        grupo.pk: {
+            'tipo': 'grupo',
+            'grupo': grupo,
+            'botoes': [],
+            'aberto': bool(grupos_abertos.get(str(grupo.pk), False)),
+            'ordem': grupo.ordem,
+        }
+        for grupo in GrupoMenu.objects.filter(ativo=True)
+    }
 
-    saida = []
-    for elemento in elementos:
-        if type(elemento) is tuple:
-            saida.append(elemento[0])
-            for botao in elemento[1]:
-                saida.append(botao)
+    elementos = []
+    menus = Menu.objects.filter(ativo=True).select_related(
+        'conteudo_relacionado', 'controlador'
+    ).order_by('ordem')
+
+    for menu in menus:
+        # Não cria links internos sem uma página ativa, nem links externos vazios.
+        if menu.tipo_destino == 'interno':
+            if not menu.conteudo_relacionado or not menu.conteudo_relacionado.ativo:
+                continue
+            if menu.conteudo_relacionado.capa:
+                continue
+        elif menu.tipo_destino == 'externo':
+            if not menu.url_externo:
+                continue
         else:
-            saida.append(elemento)
-    
-    return saida
+            continue
+
+        grupo = grupos.get(menu.controlador_id)
+        if grupo is not None:
+            grupo['botoes'].append(menu)
+        else:
+            elementos.append({
+                'tipo': 'menu',
+                'menu': menu,
+                'ordem': menu.ordem,
+                'desempate': 0,
+            })
+
+    for grupo in grupos.values():
+        if grupo['botoes']:
+            elementos.append({**grupo, 'desempate': 1})
+
+    # Em caso de empate, o botão independente aparece antes do controlador.
+    elementos.sort(key=lambda item: (item['ordem'], item['desempate']))
+    return elementos
+
+
+def contexto_layout(request, pagina_atual=None):
+    return {
+        'itens_menu': obter_itens_menu(request),
+        'pagina_atual': pagina_atual,
+    }
 
 
 def index(request):
-    """Define o conteúdo interno que será exibido como capa. Apresenta duas mensagens de erro: uma para quando há elementos, mas nenhuma capa definida, e outra para quando não há nenhum elemento.
-O erro é retornado como HTML exibido dentro do portal"""
+    """Exibe a capa e gera seus botões com base nos conteúdos ativos."""
+    capa = Conteudo.objects.filter(ativo=True, capa=True).first()
+    conteudos_capa = Conteudo.objects.filter(
+        ativo=True,
+    ).exclude(capa=True).exclude(slug__isnull=True).exclude(slug='').order_by('titulo')
 
-    conteudos = Conteudo.objects.all()
-    botoes = obter_botoes()
-    if len(conteudos) == 0:
-        capa = {
-            'conteudo' : '<p> <b>ERRO</b>: Você não criou nenhuma página interna.<br>Crie uma acessando o <a target="_blank" href="http://127.0.0.1:8000/admin">Django Admin</a>.<br>Lembre-se de criar um super usuário para acessar a administração.</p>'
-                }
-    else:
-        capa = None
-        for cont in conteudos:
-            if cont.capa:
-                capa = cont
-                break
-        if capa is None:
-            capa = {
-                'conteudo' : '<p> <b>ERRO</b>: Você não definiu nenhuma página para ser a capa padrão.<br>Defina uma acessando o <a target="_blank" href="http://127.0.0.1:8000/admin">Django Admin</a>.<br>Lembre-se de criar um super usuário para acessar a administração.</p>'
-                }
-    template = loader.get_template('index.html')
-    context = {
-        'capa' : capa,
-        'botoes' : botoes,
+    if capa is None:
+        mensagem_erro = (
+            '<p><strong>ERRO:</strong> Nenhuma página foi definida como capa. '
+            'Acesse o Django Admin e marque um conteúdo como capa.</p>'
+        )
+        capa = {'conteudo': mensagem_erro}
+
+    contexto = {
+        **contexto_layout(request, 'capa'),
+        'capa': capa,
+        'conteudos_capa': conteudos_capa,
     }
-    
-    return HttpResponse(template.render(context, request))
+    return render(request, 'index.html', contexto)
 
 
+def exibir_conteudo(request, slug):
+    """Exibe um conteúdo pelo slug, respeitando as páginas especiais."""
+    conteudo = get_object_or_404(Conteudo, slug=slug, ativo=True)
+
+    if conteudo.capa:
+        return redirect('menu')
+    if conteudo.slug == 'ouvidoria':
+        return redirect('ouvidoria')
+
+    contexto = {
+        **contexto_layout(request, conteudo.slug),
+        'conteudo': conteudo,
+    }
+    return render(request, 'conteudo.html', contexto)
 
 
+@require_POST
+def alternar_grupo(request, grupo_id):
+    """Alterna e guarda na sessão o estado aberto/fechado de um grupo."""
+    grupo = get_object_or_404(GrupoMenu, pk=grupo_id, ativo=True)
+    estados = request.session.get(SESSION_GRUPOS_ABERTOS, {})
+    if not isinstance(estados, dict):
+        estados = {}
+
+    chave = str(grupo.pk)
+    estados[chave] = not bool(estados.get(chave, False))
+    request.session[SESSION_GRUPOS_ABERTOS] = estados
+
+    destino = request.POST.get('next') or reverse('menu')
+    if not url_has_allowed_host_and_scheme(
+        url=destino,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        destino = reverse('menu')
+    return redirect(destino)
 
 
+def ouvidoria(request):
+    """Recebe o formulário da atividade 07 e encaminha à tela de sucesso."""
+    if request.method == 'POST':
+        form = OuvidoriaForm(request.POST)
+        if form.is_valid():
+            # A atividade original apenas confirma o envio; não há envio de e-mail
+            # nem armazenamento permanente porque o projeto não possui esse modelo.
+            request.session['ouvidoria_confirmacao'] = {
+                'nome': form.cleaned_data['nome'],
+                'email': form.cleaned_data['email'],
+            }
+            return redirect('ouvidoria_sucesso')
+    else:
+        form = OuvidoriaForm()
+
+    contexto = {
+        **contexto_layout(request, 'ouvidoria'),
+        'form': form,
+    }
+    return render(request, 'ouvidoria.html', contexto)
+
+
+def ouvidoria_sucesso(request):
+    confirmacao = request.session.pop('ouvidoria_confirmacao', None)
+    contexto = {
+        **contexto_layout(request, 'ouvidoria'),
+        'confirmacao': confirmacao,
+    }
+    return render(request, 'ouvidoria_sucesso.html', contexto)

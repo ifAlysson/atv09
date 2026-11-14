@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Conteudo(models.Model):
 	titulo = models.CharField(max_length=100, null=True)
@@ -44,6 +45,15 @@ class Menu(models.Model):
 
     def __str__(self):
         return self.titulo
-    
-    def tipo(self):
-        return self.tipo
+
+    def clean(self):
+        """Impede cadastrar botões sem um destino correspondente."""
+        super().clean()
+        if self.tipo_destino == 'interno' and not self.conteudo_relacionado:
+            raise ValidationError({
+                'conteudo_relacionado': 'Selecione um conteúdo para o botão interno.'
+            })
+        if self.tipo_destino == 'externo' and not self.url_externo:
+            raise ValidationError({
+                'url_externo': 'Informe uma URL para o botão externo.'
+            })
